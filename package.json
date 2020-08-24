@@ -1,0 +1,16 @@
+{
+  "name": "htmlrenderfunction",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cdk": "cdk",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "koudenpa",
+  "license": "MIT",
+  "devDependencies": {
+    "aws-cdk": "^1.60.0",
+    "aws-sdk": "^2.738.0"
+  }
+}

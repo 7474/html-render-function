@@ -1,5 +1,5 @@
 {
-  "app": "dotnet run -p src/App/App.csproj",
+  "app": "dotnet run -p src/HtmlRenderer/HtmlRenderer.csproj",
   "context": {
     "@aws-cdk/core:enableStackNameDuplicates": "true",
     "aws-cdk:enableDiffNoFail": "true",
