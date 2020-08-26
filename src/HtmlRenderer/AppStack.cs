@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using Amazon.CDK;
-using Amazon.CDK.AWS.Lambda;
-using Lambda = Amazon.CDK.AWS.Lambda;
-using Amazon.CDK.AWS.S3;
-using EFS = Amazon.CDK.AWS.EFS;
 using Amazon.CDK.AWS.EC2;
 using Amazon.CDK.AWS.EFS;
-using Amazon.CDK.AWS.IAM;
+using Amazon.CDK.AWS.Lambda;
+using Amazon.CDK.AWS.S3;
+using Amazon.CDK.AWS.S3.Deployment;
+using System.Collections.Generic;
+using EFS = Amazon.CDK.AWS.EFS;
+using Lambda = Amazon.CDK.AWS.Lambda;
 
 namespace HtmlRenderer
 {
@@ -38,6 +38,20 @@ namespace HtmlRenderer
                     OwnerUid = "1001",
                     Permissions = "755",
                 },
+            });
+
+            // Assets
+            // https://docs.aws.amazon.com/cdk/api/latest/docs/aws-s3-assets-readme.html
+            // vs
+            // https://docs.aws.amazon.com/cdk/api/latest/docs/aws-s3-deployment-readme.html
+            // 静的にS3にファイルを残し、スタックのデプロイ後にDataSyncでEFSに転送するのでDeployment。
+            var assetBucket = new Bucket(this, "AssetBucket", new BucketProps()
+            {
+            });
+            new BucketDeployment(this, "AssetBucketDeployment", new BucketDeploymentProps()
+            {
+                Sources = new ISource[] { Source.Asset("assets") },
+                DestinationBucket = assetBucket,
             });
 
             // https://github.com/shelfio/chrome-aws-lambda-layer
