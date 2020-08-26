@@ -35,7 +35,8 @@ namespace HtmlRenderer
             {
                 FileSystem = efs,
                 // 他の設定そのままで "/" では書き込み権限が得られていなかった。
-                Path = "/lambda",
+                // CDK上ではなく、マウント後にルートユーザーで権限を操作すればよい？
+                Path = "/",
                 // ファイルIOに用いるユーザーとディレクトリ作成時権限の設定は必須である様子。
                 // CDKが既定のユーザーを構成してくれるようなことはない。
                 PosixUser = efsUser,
