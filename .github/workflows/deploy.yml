@@ -37,6 +37,6 @@ jobs:
 
     - name: Sync assets
       run: |
-        BastionInstanceId=$(aws cloudformation describe-stacks --stack-name HtmlRendererAppStack --query "Stacks[0].Outputs[?ExportName=='BastionInstanceId`].OutputValue" --output text)
-        AssetBucketName=$(aws cloudformation describe-stacks --stack-name HtmlRendererAppStack --query "Stacks[0].Outputs[?ExportName=='AssetBucketName`].OutputValue" --output text)
+        BastionInstanceId=$(aws cloudformation describe-stacks --stack-name HtmlRendererAppStack --query "Stacks[0].Outputs[?ExportName==BastionInstanceId].OutputValue" --output text)
+        AssetBucketName=$(aws cloudformation describe-stacks --stack-name HtmlRendererAppStack --query "Stacks[0].Outputs[?ExportName==AssetBucketName].OutputValue" --output text)
         aws ssm send-command --document-name "AWS-RunShellScript" --document-version "1" --targets '[{"Key":"InstanceIds","Values":["$BastionInstanceId"]}]' --parameters '{"workingDirectory":[""],"executionTimeout":["3600"],"commands":["aws s3 sync s3://$AssetBucketName /mnt/efs/fs1/assets"]}' --timeout-seconds 600 --max-concurrency "50" --max-errors "0"
