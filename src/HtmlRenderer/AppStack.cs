@@ -35,10 +35,14 @@ namespace HtmlRenderer
             {
                 FileSystem = efs,
                 // 他の設定そのままで "/" では書き込み権限が得られていなかった。
-                // CDK上ではなく、マウント後にルートユーザーで権限を操作すればよい？
+                // CDK上ではなく、NFSマウント後にルートユーザーで権限を操作すればよい。
+                // （ルートディレクトリは既定でルートユーザーが所有している状態）
+                // See. https://docs.aws.amazon.com/ja_jp/efs/latest/ug/using-fs.html
+                //      https://docs.aws.amazon.com/ja_jp/efs/latest/ug/accessing-fs-nfs-permissions-per-user-subdirs.html
                 Path = "/",
                 // ファイルIOに用いるユーザーとディレクトリ作成時権限の設定は必須である様子。
                 // CDKが既定のユーザーを構成してくれるようなことはない。
+                // -> ↑嘘。必要がなければ構成しなくても問題ない。所詮はNFSなので、権限が他のユーザーに解放されているディレクトリは操作できる。はず。
                 PosixUser = efsUser,
                 CreateAcl = efsCreateAcl,
             });
