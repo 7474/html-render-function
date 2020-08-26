@@ -33,7 +33,7 @@ jobs:
         aws-region: ap-northeast-1
 
     - name: cdk deploy
-      run: npm run cdk -- deploy "*"
+      run: npm run cdk -- deploy "*" --require-approval=never
 
     - name: Sync assets
       run: |
